@@ -17,16 +17,15 @@ Disclaimer: This extension has only been tested on Windows.
 
 ## Instructions
 1. Install the vscode-supercollider extension in VS Code.
-   
+
 2. Install SuperCollider from the
 [SuperCollider website](https://supercollider.github.io/).
 
-3. In VS Code use the command `Preferences: Open Settings (JSON)`.
-Enter the setting `"supercollider.sclangCmd": "[Command to run sclang]"`.
-This will depend on your operating system, and on the default shell
-you use within vscode. Examples:
-  - (Windows, default shell: powershell) `"supercollider.sclangCmd": "& \"C:\\Program Files\\SuperCollider-3.9.3\\sclang.exe\""`
-  - (OSX, default shell: bash) `"supercollider.sclangCmd": "/Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang"`
+3. In VS Code go to `Preferences > Settings > Extensions > SuperCollider` and change the directory path to `sclang.exe` (Windows) or `sclang` (MacOS & Linux).
+
+Examples:
+  - Windows: `"C:\\Program Files\\SuperCollider-3.9.3\\sclang.exe\"`
+  - MacOS: `"Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang"`
 
 4. Open a SuperCollider file (`.scd`). To run use
 `Ctrl + Shift + b`. Once your SuperCollider script
