@@ -26,15 +26,11 @@
     "contributes": {
         "configuration": [
             {
-                "type": "object",
-                "title": "SuperCollider Configuration",
+                "title": "SuperCollider",
                 "properties": {
                     "supercollider.sclangCmd": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "default": null,
+                        "type": "string",
+                        "default": "/Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang",
                         "description": "Specifies the correct sclang command for your SuperCollider installation."
                     }
                 }
@@ -44,11 +40,13 @@
             {
                 "command": "supercollider.execInTerminal",
                 "key": "ctrl+shift+b",
+                "mac": "cmd+shift+b",
                 "when": "resourceExtname == .scd"
             },
             {
                 "command": "supercollider.killTerminal",
-                "key": "ctrl+."
+                "key": "ctrl+.",
+                "mac": "cmd+."
             }
         ],
         "commands": [
@@ -93,5 +91,9 @@
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42",
         "tar": ">=4.4.2"
+    },
+    "dependencies": {
+        "ajv": "^6.12.5",
+        "platform-detect": "^3.0.1"
     }
 }
