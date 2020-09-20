@@ -30,7 +30,7 @@
                 "properties": {
                     "supercollider.sclangCmd": {
                         "type": "string",
-                        "default": "/Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang",
+                        "default": "",
                         "description": "Specifies the correct sclang command for your SuperCollider installation."
                     }
                 }

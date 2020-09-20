@@ -2,6 +2,15 @@ const vscode = require('vscode');
 const path = require('path');
 const platformDetect = require('platform-detect');
 
+function detectOS() {
+    var result = null;
+    result = platformDetect.macos ? 'macos' : result;
+    result = platformDetect.linux ? 'linux' : result;
+    result = platformDetect.windows ? 'windows' : result;
+
+    return result;
+}
+
 let _activeTerminal = null;
 vscode.window.onDidCloseTerminal((terminal) => {
     if (terminal.name === 'SuperCollider') {
@@ -10,15 +19,18 @@ vscode.window.onDidCloseTerminal((terminal) => {
         }
     }
 });
+
 function createTerminal() {
     _activeTerminal = vscode.window.createTerminal('SuperCollider');
     return _activeTerminal;
 }
+
 function disposeTerminal() {
     _activeTerminal.tckDisposed = true;
     _activeTerminal.dispose();
     _activeTerminal = null;
 }
+
 function getTerminal() {
     if (!_activeTerminal) {
         createTerminal();
@@ -60,6 +72,23 @@ function handleInput(editor) {
 }
 
 function activate(context) {
+
+    const winPath = "& \"C:\\Program Files\\SuperCollider-3.9.3\\sclang.exe\"";
+    const macPath = "/Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang";
+
+    let os = detectOS();
+
+    switch (os) {
+        case 'windows':
+            vscode.workspace.getConfiguration().update('supercollider.sclangCmd', winPath);
+            break;
+        case 'macos':
+            vscode.workspace.getConfiguration().update('supercollider.sclangCmd', macPath);
+            break;
+        default: 
+            vscode.workspace.getConfiguration().update('supercollider.sclangCmd', winPath);
+    }
+
     let execInTerminal = vscode.commands.registerCommand('supercollider.execInTerminal', () => {
         const editor = vscode.window.activeTextEditor
         if (!editor) {
@@ -70,33 +99,6 @@ function activate(context) {
         handleInput(editor)
     });
     context.subscriptions.push(execInTerminal);
-    //vscode.window.showInformationMessage('SuperCollider Server is starting...');
-
-    var os = null;
-    os = platformDetect.macos ? 'macos' : os;
-    os = platformDetect.linux ? 'linux' : os;
-    os = platformDetect.windows ? 'windows' : os;
-
-    var message = '';
-    switch (os) {
-        case 'macos': {
-            message = 'You are using MacOS.';
-            break;
-        }
-        case 'windows': {
-            message = 'You are using Windows.';
-            break;
-        }
-        case 'linux': {
-            message = 'You are using Linux.';
-            break;
-        }
-        default: {
-            message = 'Operating System could not be detected.';
-        }
-    }
-
-    vscode.window.showInformationMessage(message);
 
     let killTerminal = vscode.commands.registerCommand('supercollider.killTerminal', () => {
         if(_activeTerminal)

@@ -21,9 +21,9 @@ Disclaimer: This extension has only been tested on Windows.
 2. Install SuperCollider from the
 [SuperCollider website](https://supercollider.github.io/).
 
-3. In VS Code go to `Preferences > Settings > Extensions > SuperCollider` and change the directory path to `sclang.exe` (Windows) or `sclang` (MacOS & Linux).
+3. If your path to `sclang` does not correspond to the default values you can change it in `Preferences > Settings > Extensions > SuperCollider`.
 
-Examples:
+Default values:
   - Windows: `"C:\\Program Files\\SuperCollider-3.9.3\\sclang.exe\"`
   - MacOS: `"Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang"`
 
