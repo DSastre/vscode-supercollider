@@ -21,7 +21,7 @@
         "onCommand:supercollider.execInTerminal",
         "onCommand:supercollider.killTerminal"
     ],
-    "main": "./extension",
+    "main": "./src/extension",
     "icon": "icon.png",
     "contributes": {
         "configuration": [
@@ -94,6 +94,7 @@
     },
     "dependencies": {
         "ajv": "^6.12.5",
+        "findit": "^2.0.0",
         "platform-detect": "^3.0.1"
     }
 }
