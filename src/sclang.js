@@ -45,7 +45,6 @@ SCLang.search = async os => {
 
     try {
         let solution = await searchProcess;
-        console.log(solution);
         return solution;
     } catch (error) {
         console.error(error);

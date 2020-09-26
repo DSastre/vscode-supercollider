@@ -7,7 +7,7 @@ function detectOS() {
     var result = null;
     result = platformDetect.windows ? 'windows' : result;
     result = platformDetect.macos ? 'macos' : result;
-    //result = platformDetect.linux ? 'linux' : result;     // not tested yet
+    //result = platformDetect.linux ? 'linux' : result;     // not implemented yet
     return result;
 }
 
@@ -73,23 +73,21 @@ function handleInput(editor) {
 
 function activate(context) {
 
-    //const winPath = "& \"C:\\Program Files\\SuperCollider-3.11.1\\sclang.exe\"";
-    //const macPath = "/Applications/SuperCollider/SuperCollider.app/Contents/MacOS/sclang";
-    const sclangPath = SCLang.search(detectOS());
-
-    switch (detectOS()) {
-        case 'windows':
-            vscode.workspace.getConfiguration().update('supercollider.sclangCmd', `&\"${sclangPath}"`);
-            //vscode.workspace.getConfiguration().update('supercollider.sclangCmd', `${winPath}`);
-            break;
-        case 'macos':
-            vscode.workspace.getConfiguration().update('supercollider.sclangCmd', `${sclangPath}`);
-            break;
-        default: 
-            console.error('No OS detected!');
-            return;
-    }
-
+    const localOS = detectOS();
+    SCLang.search(localOS)
+        .then(sclangPath => {
+            switch (localOS) {
+                case 'windows':
+                    vscode.workspace.getConfiguration().update('supercollider.sclangCmd', `&\"${sclangPath}"`);
+                    break;
+                case 'macos':
+                    vscode.workspace.getConfiguration().update('supercollider.sclangCmd', `${sclangPath}`);
+                    break;
+                default: 
+                    console.error('No OS detected!');
+                    return;
+            }
+        }, () => {});
     let execInTerminal = vscode.commands.registerCommand('supercollider.execInTerminal', () => {
         const editor = vscode.window.activeTextEditor
         if (!editor) {
