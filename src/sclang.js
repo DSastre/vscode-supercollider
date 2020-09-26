@@ -1,20 +1,21 @@
 const find = require('findit');
 var path = require('path');
 
+let SCLang = {};
 
 const operatingSystem = {
     windows: {
         directory: /^SuperCollider-\d*.\d*.\d*$/,
-        sclangRelativePath: '\\sclang.exe'
+        sclangRelativePath: '\\sclang.exe\\'
     },
-    macOS: {
+    macos: {
         directory: /^SuperCollider.app$/,
         sclangRelativePath: '/Contents/MacOS/sclang'
 
     }
 }
 
-async function searchSCLang (os) {
+SCLang.search = async os => {
 
     let directory = operatingSystem[os].directory;
     let sclangRelativePath = operatingSystem[os].sclangRelativePath;
@@ -35,7 +36,7 @@ async function searchSCLang (os) {
     // Create a promise object to await its solution.
     const searchProcess = new Promise((resolve, reject) => {
         finder.on('stop', () => {
-            resolve(`SCLang found. \nPath: ${sclangAbsolutePath} `);
+            resolve(sclangAbsolutePath + sclangRelativePath);
         });
         finder.on('end', () => {
             reject(`No SuperCollider directory was found.`);
@@ -45,10 +46,11 @@ async function searchSCLang (os) {
     try {
         let solution = await searchProcess;
         console.log(solution);
+        return solution;
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        return;
     }
 }
 
-//searchSCLang('/', 'WINDOWS');
-searchSCLang('macOS');
+module.exports = SCLang;
